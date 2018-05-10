@@ -13,6 +13,7 @@ import com.gabrielmint.cursomc.domain.Cidade;
 import com.gabrielmint.cursomc.domain.Cliente;
 import com.gabrielmint.cursomc.domain.Endereco;
 import com.gabrielmint.cursomc.domain.Estado;
+import com.gabrielmint.cursomc.domain.ItemPedido;
 import com.gabrielmint.cursomc.domain.Pagamento;
 import com.gabrielmint.cursomc.domain.PagamentoComBoleto;
 import com.gabrielmint.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.gabrielmint.cursomc.repository.CidadeRepository;
 import com.gabrielmint.cursomc.repository.ClienteRepository;
 import com.gabrielmint.cursomc.repository.EnderecoRepository;
 import com.gabrielmint.cursomc.repository.EstadoRepository;
+import com.gabrielmint.cursomc.repository.ItemPedidoRepository;
 import com.gabrielmint.cursomc.repository.PagamentoRepository;
 import com.gabrielmint.cursomc.repository.PedidoRepository;
 import com.gabrielmint.cursomc.repository.ProdutoRepository;
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -111,6 +115,20 @@ public class CursomcApplication implements CommandLineRunner{
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+		
+		ItemPedido it1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido it2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido it3 = new ItemPedido(ped2, p2, 100.0, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(it1, it2));
+		ped2.getItens().addAll(Arrays.asList(it3));
+		
+		p1.getItens().addAll(Arrays.asList(it1));
+		p2.getItens().addAll(Arrays.asList(it3));
+		p3.getItens().addAll(Arrays.asList(it2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(it1, it2, it3));
+		
 		
 	}
 }
