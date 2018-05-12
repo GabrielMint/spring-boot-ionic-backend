@@ -14,7 +14,7 @@ public enum TipoCliente {
 		this.descricao = descricao;
 	}
 	
-	public int getCod() {
+	public Integer getCod() {
 		return cod;
 	}
 	
