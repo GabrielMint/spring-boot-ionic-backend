@@ -7,7 +7,6 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.gabrielmint.cursomc.domain.enums.TipoCliente;
 import com.gabrielmint.cursomc.service.validation.ClienteInsert;
 
 @ClienteInsert
@@ -76,8 +75,8 @@ public class ClienteNewDTO implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
-	public TipoCliente getTipo() {
-		return TipoCliente.toEnum(tipo);
+	public Integer getTipo() {
+		return tipo;
 	}
 
 	public void setTipo(Integer tipo) {

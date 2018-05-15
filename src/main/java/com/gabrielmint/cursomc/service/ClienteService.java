@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.gabrielmint.cursomc.domain.Cidade;
 import com.gabrielmint.cursomc.domain.Cliente;
 import com.gabrielmint.cursomc.domain.Endereco;
+import com.gabrielmint.cursomc.domain.enums.TipoCliente;
 import com.gabrielmint.cursomc.dto.ClienteDTO;
 import com.gabrielmint.cursomc.dto.ClienteNewDTO;
 import com.gabrielmint.cursomc.repository.ClienteRepository;
@@ -70,7 +71,7 @@ public class ClienteService {
 	}
 	
 	public Cliente fromDTO(ClienteNewDTO objDto) {
-		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), objDto.getTipo());
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
 		Cidade cid = new Cidade (objDto.getCidadeId(), null, null);
 		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cid, cli);
 		cli.getEnderecos().add(end);

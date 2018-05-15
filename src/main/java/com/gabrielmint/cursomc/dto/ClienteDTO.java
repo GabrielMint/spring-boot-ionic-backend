@@ -21,7 +21,7 @@ public class ClienteDTO implements Serializable{
 	@NotEmpty
 	@Email
 	private String email;
-		
+
 	public ClienteDTO() {
 		
 	}
