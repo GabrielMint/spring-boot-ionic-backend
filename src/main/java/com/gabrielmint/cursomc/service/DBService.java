@@ -20,6 +20,7 @@ import com.gabrielmint.cursomc.domain.PagamentoComCartao;
 import com.gabrielmint.cursomc.domain.Pedido;
 import com.gabrielmint.cursomc.domain.Produto;
 import com.gabrielmint.cursomc.domain.enums.EstadoPagamento;
+import com.gabrielmint.cursomc.domain.enums.Perfil;
 import com.gabrielmint.cursomc.domain.enums.TipoCliente;
 import com.gabrielmint.cursomc.repository.CategoriaRepository;
 import com.gabrielmint.cursomc.repository.CidadeRepository;
@@ -116,16 +117,26 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(e1, e2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "3637891237", TipoCliente.PESSOAFISICA, pe.encode("1234"));
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "3637891237",
+											TipoCliente.PESSOAFISICA, pe.encode("1234"));
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Cliente cli2 = new Cliente(null, "Ana Costa", "anacosta@gmail.com", "54674163757", 
+											TipoCliente.PESSOAFISICA, pe.encode("abcd"));
+		cli1.getTelefones().addAll(Arrays.asList("48571259", "996524123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		
+		
 		
 		Endereco end1 = new Endereco(null, "Rua Flores", "300", "apto 203", "Jardim", "38220834", c1, cli1);
 		Endereco end2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", c2, cli1);
+		Endereco end3 = new Endereco(null, "Avenida Floriano", "106", "null", "Rubi Vermelho", "28777012", c2, cli2);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		cli2.getEnderecos().addAll(Arrays.asList(end3));
 		
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
