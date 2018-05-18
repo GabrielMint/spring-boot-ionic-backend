@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import com.gabrielmint.cursomc.domain.Cidade;
 import com.gabrielmint.cursomc.domain.Cliente;
 import com.gabrielmint.cursomc.domain.Endereco;
+import com.gabrielmint.cursomc.domain.enums.Perfil;
 import com.gabrielmint.cursomc.domain.enums.TipoCliente;
 import com.gabrielmint.cursomc.dto.ClienteDTO;
 import com.gabrielmint.cursomc.dto.ClienteNewDTO;
 import com.gabrielmint.cursomc.repository.ClienteRepository;
 import com.gabrielmint.cursomc.repository.EnderecoRepository;
+import com.gabrielmint.cursomc.security.UserSS;
+import com.gabrielmint.cursomc.service.exceptions.AuthorizationException;
 import com.gabrielmint.cursomc.service.exceptions.DataIntegrityException;
 import com.gabrielmint.cursomc.service.exceptions.ObjectNotFoundException;
 
@@ -34,9 +37,17 @@ public class ClienteService {
 	
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		
+		if(user != null && !user.hasRole(Perfil.ADMIN) && id != user.getId()) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+		
 	}
 	
 	public Cliente insert(Cliente obj) {
